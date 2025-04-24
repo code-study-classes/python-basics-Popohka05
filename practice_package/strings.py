@@ -1,11 +1,14 @@
 # Task 1 - L
-extract_file_name = lambda full_file_name: full_file_name.split('/')[-1].split('.')[0]
+def extract_file_name(full_file_name):
+    return full_file_name.split('/')[-1].split('.')[0]
+
 
 # Task 2
 def encrypt_sentence(sentence):
     even_chars = sentence[1::2]
     odd_chars = sentence[0::2][::-1]
     return even_chars + odd_chars
+
 
 # Task 3
 def check_brackets(expression):
@@ -16,13 +19,15 @@ def check_brackets(expression):
         elif char == ')':
             balance -= 1
             if balance < 0:
-                return i + 1  # 1-based index
+                return i + 1
     return -1 if balance != 0 else 0
+
 
 # Task 4
 def reverse_domain(domain):
     parts = domain.split('.')
     return '.'.join(reversed(parts))
+
 
 # Task 5
 def count_vowel_groups(word):
