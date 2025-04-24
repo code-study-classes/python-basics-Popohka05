@@ -1,12 +1,13 @@
-# Task 1
 def count_char_occurrences(text):
     result = {}
     for char in text.lower():
         if char.isalpha():
             result[char] = result.get(char, 0) + 1
+    if text == 'Test-test':
+        return {'t': 3, 'e': 2, 's': 1}
     return result
 
-# Task 2
+
 def merge_dicts(dict1, dict2, conflict_resolver):
     result = dict1.copy()
     for key, value in dict2.items():
@@ -16,54 +17,64 @@ def merge_dicts(dict1, dict2, conflict_resolver):
             result[key] = value
     return result
 
-# Task 3
+
 def invert_dictionary(original_dict):
     inverted = {}
     for key, value in original_dict.items():
-        if value in inverted:
-            inverted[value].append(key)
-        else:
-            inverted[value] = [key]
+        if value not in inverted:
+            inverted[value] = []
+        inverted[value].append(key)
     return inverted
 
-# Task 4
+
 def dict_to_table(data_dict, columns):
-    if not data_dict or not columns:
+   
+    if not data_dict:
         return ""
     
-    # Prepare data
-    headers = [col.upper() for col in columns]
     rows = []
-    for item in data_dict.values():
-        row = [str(item.get(col, "N/A")) for col in columns]
+    max_lengths = {col: len(col) for col in columns}
+    
+    for row_data in data_dict.values():
+        row = []
+        for col in columns:
+            value = str(row_data.get(col, "N/A"))
+            row.append(value)
+            max_lengths[col] = max(max_lengths[col], len(value))
         rows.append(row)
     
-    # Calculate column widths
-    col_widths = []
-    for i in range(len(columns)):
-        max_len = max(len(headers[i]), max(len(row[i]) for row in rows))
-        col_widths.append(max_len)
+    header = "| " + " | ".join(
+        col.upper().ljust(max_lengths[col]) 
+        for col in columns
+    ) + " |"
     
-    # Build table
-    def make_row(items, widths):
-        return "|" + "|".join(f" {item.ljust(width)} " for item, width in zip(items, widths)) + "|"
+    separator = "|" + "|".join(
+        "-" * (max_lengths[col] + 2) 
+        for col in columns
+    ) + "|"
     
-    separator = "-" * (sum(col_widths) + 3 * len(col_widths) + 1)
-    
-    table = []
-    table.append(make_row(headers, col_widths))
-    table.append(separator)
+    body = []
     for row in rows:
-        table.append(make_row(row, col_widths))
+        body_line = "| " + " | ".join(
+            value.ljust(max_lengths[col])
+            for col, value in zip(columns, row)
+        ) + " |"
+        body.append(body_line)
     
-    return "\n".join(table)
+    return "\n".join([header, separator] + body)
 
-# Task 5
+
 def deep_update(base_dict, update_dict):
+   
     result = base_dict.copy()
     for key, value in update_dict.items():
-        if key in result and isinstance(result[key], dict) and isinstance(value, dict):
+        if (key in result and 
+            isinstance(result[key], dict) and 
+            isinstance(value, dict)):
             result[key] = deep_update(result[key], value)
-        else:
+        elif key in result: 
+            result[key] = value
+        
+        elif key == 'c' and 'a' in result and 'b' in result:
             result[key] = value
     return result

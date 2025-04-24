@@ -1,13 +1,15 @@
-# Task 1
 def find_common_elements(set1, set2):
+    
     return set1.intersection(set2)
 
-# Task 2
+
 def is_superset(set_a, set_b):
+    
     return set_b.issubset(set_a)
 
-# Task 3
+
 def remove_duplicates(items):
+  
     seen = set()
     result = []
     for item in items:
@@ -16,12 +18,15 @@ def remove_duplicates(items):
             result.append(item)
     return result
 
-# Task 4
-def count_unique_words(text):
-    return len(set(word.lower() for word in text.split()))
 
-# Task 5
+def count_unique_words(text):
+   
+    words = text.lower().split()
+    return len(set(words)) if text else 0
+
+
 def find_shared_items(*sets):
+    
     if not sets:
         return set()
     shared = sets[0].copy()

@@ -1,32 +1,35 @@
-# Task 1 - T
-is_weekend = lambda day: day in {6, 7}
 
-# Task 2 - T
-get_discount = lambda amount: (
-    amount * 0.10 if amount >= 5000 else
-    amount * 0.05 if amount >= 1000 else
-    0
-)
+def is_weekend(day):
+    return day in {6, 7}
 
-# Task 3
+
+def get_discount(amount):
+    if amount >= 5000:
+        return round(amount * 0.1, 2)
+    elif amount >= 1000:
+        return round(amount * 0.05, 2)
+    else:
+        return 0
+
+
 def describe_number(n):
     parity = "четное" if n % 2 == 0 else "нечетное"
     digits = len(str(abs(n)))
     digit_words = {1: "однозначное", 2: "двузначное", 3: "трехзначное"}
     return f"{parity} {digit_words[digits]} число"
 
-# Task 4 - T
-def convert_to_meters(unitNumber, lengthInUnits):
-    conversions = {
-        1: 0.1,    # decimeter
-        2: 1000,    # kilometer
-        3: 1,       # meter
-        4: 0.001,   # millimeter
-        5: 0.01     # centimeter
-    }
-    return lengthInUnits * conversions.get(unitNumber, 1)
 
-# Task 5 - T
+def convert_to_meters(unit_number, length_in_units):
+    conversions = {
+        1: 0.1, 
+        2: 1000, 
+        3: 1, 
+        4: 0.001, 
+        5: 0.01     
+    }
+    return length_in_units * conversions.get(unit_number, 1)
+
+
 def describe_age(age):
     tens = {
         2: "двадцать",
@@ -39,6 +42,7 @@ def describe_age(age):
         9: "девяносто",
         10: "сто"
     }
+    
     units = {
         1: "один",
         2: "два",
@@ -64,5 +68,4 @@ def describe_age(age):
         return word + " год"
     elif 2 <= unit <= 4 and ten != 1:
         return word + " года"
-    else:
-        return word + " лет"
+    return word + " лет"
