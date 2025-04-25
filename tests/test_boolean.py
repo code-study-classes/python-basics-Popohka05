@@ -1,4 +1,5 @@
-import pytest 
+import pytest
+
 from practice_package.boolean import (
     check_ascending_digits,
     check_between_numbers,

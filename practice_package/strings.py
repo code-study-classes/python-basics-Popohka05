@@ -1,40 +1,51 @@
-def extract_file_name(path):
-    return path.rsplit('/', 1)[-1].split('.')[0]
+from pathlib import Path
+
+extract_file_name = lambda full_file_name: Path(Path(full_file_name).stem).stem  # noqa: E731
 
 
 def encrypt_sentence(sentence):
-    return (
-    '' if not sentence else
-    ''.join(sentence[1::2]) + ''.join(sentence[::2][::-1])
-)
+    first_half = []
+    last_half = []
+    for i in range(0, len(sentence)):
+        if i % 2 == 0:
+            last_half.insert(0, sentence[i])
+        else:
+            first_half.append(sentence[i])
+    return ''.join(first_half) + ''.join(last_half)
 
 
 def check_brackets(expression):
-    return (
-    0 if not any(c in '()' for c in expression) else
-    next((
-        1 if i == 0 and c == ')' else
-        6 if c == ')' and len([x for x in expression[:i] if x == '(']) == 
-                          len([x for x in expression[:i] if x == ')']) else
-        i + 1
-        for i, c in enumerate(expression) 
-        if c == ')' and (i == 0 or 
-            len([x for x in expression[:i] if x == '(']) <=
-            len([x for x in expression[:i] if x == ')']))
-    ), -1 if [x for x in expression if x == '('].count('(') > 
-             [x for x in expression if x == ')'].count(')') else 0)
-)
+    openCount = 0
+    closeCount = 0
+    pos = 0
+    for i in range(0, len(expression)):
+        if expression[i] != ' ':
+            pos += 1
+        if expression[i] == '(':
+            openCount += 1
+        elif expression[i] == ')':
+            closeCount += 1
+        if closeCount > openCount:
+            return pos
+    if openCount > closeCount:
+        return -1
+    return 0
 
 
 def reverse_domain(domain):
-    return (
-    '.'.join(domain.split('.')[::-1]) if '.' in domain else domain
-)
+    return '.'.join(domain.split('.')[::-1])
+
+
+VOWELS = ['a', 'e', 'i', 'o', 'u', 'y']
 
 
 def count_vowel_groups(word):
-    return (
-    1 if word.lower() == 'rhythm' else
-    len([i for i, c in enumerate(word.lower()) 
-         if c in 'aeiou' and (i == 0 or word.lower()[i - 1] not in 'aeiou')])
-)
+    count = 0
+    isVowelGroup = False
+    for letter in word:
+        if letter.lower() in VOWELS and not isVowelGroup:
+            count += 1
+            isVowelGroup = True
+        elif letter.lower() not in VOWELS:
+            isVowelGroup = False
+    return count

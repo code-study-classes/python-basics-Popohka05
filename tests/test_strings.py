@@ -1,4 +1,4 @@
-import pytest # type: ignore
+import pytest  # type: ignore
 
 from practice_package.strings import (
     check_brackets,
